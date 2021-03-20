@@ -1,4 +1,5 @@
 import { ethers } from "hardhat";
+import { writeFile } from "fs/promises";
 
 async function main() {
   const kittyFactory = await ethers.getContractFactory("Kitty");
@@ -20,7 +21,8 @@ async function main() {
     },
   };
 
-  console.log(JSON.stringify(config, null, 2));
+  console.log("Configuration file in ./artifacts/config.json");
+  await writeFile("./artifacts/config.json", JSON.stringify(config, null, 2));
 }
 
 main()
