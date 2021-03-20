@@ -53,12 +53,12 @@ describe("CryptoVandals", () => {
 
   describe("Single NFT to vandalize", async () => {
     it("mint a new CryptoVandals NFT", async () => {
-      await aliceK.mint("https://example.com/1");
+      await aliceK.mint("kitty/1");
       await aliceK.approve(cryptoVandals.address, 1);
-      await aliceK.mint("https://example.com/2");
+      await aliceK.mint("kitty/2");
       await aliceK.approve(cryptoVandals.address, 2);
 
-      await expect(aliceCV.vandalize(kitty.address, 1, "https://ipfs/1"))
+      await expect(aliceCV.vandalize(kitty.address, 1, "cryptoVandals/1"))
         .to.emit(kitty, "Transfer")
         .withArgs(alice.address, AddressOne, 1)
         .to.emit(cryptoVandals, "Transfer")
@@ -66,7 +66,7 @@ describe("CryptoVandals", () => {
         .to.emit(cryptoVandals, "Vandalize")
         .withArgs(kitty.address, 1, 1);
 
-      await expect(aliceCV.vandalize(kitty.address, 2, "https://ipfs/2"))
+      await expect(aliceCV.vandalize(kitty.address, 2, "cryptoVandals/2"))
         .to.emit(kitty, "Transfer")
         .withArgs(alice.address, AddressOne, 2)
         .to.emit(cryptoVandals, "Transfer")
@@ -75,27 +75,158 @@ describe("CryptoVandals", () => {
         .withArgs(kitty.address, 2, 2);
     });
     it("fail if not approved", async () => {
-      await aliceK.mint("https://example.com/1");
+      await aliceK.mint("kitty/1");
       await expect(
-        aliceCV.vandalize(kitty.address, 1, "https://ipfs/1")
+        aliceCV.vandalize(kitty.address, 1, "cryptoVandals/1")
       ).to.be.revertedWith("ERC721: transfer caller is not owner nor approved");
     });
   });
 
-  /*
-  describe("count down", async () => {
-    // 5
-    it("should fail due to underflow exception", () => {
-      return expect(counter.countDown()).to.eventually.be.rejectedWith(Error, 'Uint256 underflow');
+  describe("Two NFTs to vandalize", async () => {
+    it("mint a new CryptoVandals NFT", async () => {
+      await aliceK.mint("kitty/1");
+      await aliceK.approve(cryptoVandals.address, 1);
+      await aliceK.mint("kitty/2");
+      await aliceK.approve(cryptoVandals.address, 2);
+
+      await expect(
+        aliceCV.vandalize2(
+          kitty.address,
+          1,
+          kitty.address,
+          2,
+          "cryptoVandals/1"
+        )
+      )
+        .to.emit(kitty, "Transfer")
+        .withArgs(alice.address, AddressOne, 1)
+        .to.emit(kitty, "Transfer")
+        .withArgs(alice.address, AddressOne, 2)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(AddressZero, alice.address, 1)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(kitty.address, 1, 1)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(kitty.address, 2, 1);
     });
+    it("fail if not approved", async () => {
+      await aliceK.mint("kitty/1");
+      await aliceK.approve(cryptoVandals.address, 1);
+      await aliceK.mint("kitty/2");
 
-    it("should count down", async () => {
-      await counter.countUp();
-
-      await counter.countDown();
-      const count = await counter.getCount();
-      expect(count).to.eq(0);
+      await expect(
+        aliceCV.vandalize2(
+          kitty.address,
+          1,
+          kitty.address,
+          2,
+          "cryptoVandals/1"
+        )
+      ).to.be.revertedWith("ERC721: transfer caller is not owner nor approved");
     });
   });
-  */
+
+  describe("Single CryptoVandals NFT to vandalize", async () => {
+    it("mint a new CryptoVandals NFT", async () => {
+      await aliceK.mint("kitty/1");
+      await aliceK.approve(cryptoVandals.address, 1);
+      await aliceCV.vandalize(kitty.address, 1, "cryptoVandals/1");
+
+      await aliceCV.approve(cryptoVandals.address, 1);
+
+      await expect(
+        aliceCV.vandalize(cryptoVandals.address, 1, "cryptoVandals/2")
+      )
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(alice.address, AddressOne, 1)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(AddressZero, alice.address, 2)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(cryptoVandals.address, 1, 2);
+
+      await aliceCV.approve(cryptoVandals.address, 2);
+
+      await expect(
+        aliceCV.vandalize(cryptoVandals.address, 2, "cryptoVandals/3")
+      )
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(alice.address, AddressOne, 2)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(AddressZero, alice.address, 3)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(cryptoVandals.address, 2, 3);
+    });
+  });
+
+  describe("Two CryptoVandals NFTs to vandalize", async () => {
+    it("mint a new CryptoVandals NFT", async () => {
+      await aliceK.mint("kitty/1");
+      await aliceK.approve(cryptoVandals.address, 1);
+      await aliceCV.vandalize(kitty.address, 1, "cryptoVandals/1");
+      await aliceK.mint("kitty/2");
+      await aliceK.approve(cryptoVandals.address, 2);
+      await aliceCV.vandalize(kitty.address, 2, "cryptoVandals/2");
+
+      await aliceCV.approve(cryptoVandals.address, 1);
+      await aliceCV.approve(cryptoVandals.address, 2);
+
+      await aliceCV.vandalize(cryptoVandals.address, 1, "cryptoVandals/3");
+      await aliceCV.vandalize(cryptoVandals.address, 2, "cryptoVandals/4");
+
+      await aliceCV.approve(cryptoVandals.address, 3);
+      await aliceCV.approve(cryptoVandals.address, 4);
+
+      await expect(
+        aliceCV.vandalize2(
+          cryptoVandals.address,
+          3,
+          cryptoVandals.address,
+          4,
+          "cryptoVandals/5"
+        )
+      )
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(alice.address, AddressOne, 3)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(alice.address, AddressOne, 4)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(AddressZero, alice.address, 5)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(cryptoVandals.address, 3, 5)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(cryptoVandals.address, 4, 5);
+    });
+  });
+
+  describe("A Kitty and a CryptoVandals NFT to vandalize", async () => {
+    it("mint a new CryptoVandals NFT", async () => {
+      await aliceK.mint("kitty/1");
+      await aliceK.approve(cryptoVandals.address, 1);
+      await aliceCV.vandalize(kitty.address, 1, "cryptoVandals/1");
+      await aliceCV.approve(cryptoVandals.address, 1);
+
+      await aliceK.mint("kitty/2");
+      await aliceK.approve(cryptoVandals.address, 2);
+
+      await expect(
+        aliceCV.vandalize2(
+          cryptoVandals.address,
+          1,
+          kitty.address,
+          2,
+          "cryptoVandals/2"
+        )
+      )
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(alice.address, AddressOne, 1)
+        .to.emit(kitty, "Transfer")
+        .withArgs(alice.address, AddressOne, 2)
+        .to.emit(cryptoVandals, "Transfer")
+        .withArgs(AddressZero, alice.address, 2)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(cryptoVandals.address, 1, 2)
+        .to.emit(cryptoVandals, "Vandalize")
+        .withArgs(kitty.address, 2, 2);
+    });
+  });
 });

@@ -3,7 +3,21 @@
 pragma solidity ^0.6.0;
 
 /**
- * CryptoVandals.sol
+ *      (                         )
+ *      )\   (    (            ( /(
+ *    (((_)  )(   )\ )  `  )   )\()) (
+ *    )\___ (()\ (()/(  /(/(  (_))/  )\
+ *   ((/ __| ((_) )(_))((_)_\ | |_  ((_)
+ *    | (__ | '_|| || || '_ \)|  _|/ _ \
+ *     \___||_|   \_, || .__/  \__|\___/
+ *                |__/ |_|  (          (
+ *     (   (     )          )\ )    )  )\
+ *     )\  )\ ( /(   (     (()/( ( /( ((_)(
+ *    ((_)((_))(_))  )\ )   ((_)))(_)) _  )\
+ *    \ \ / /((_)_  _(_/(   _| |((_)_ | |((_)
+ *     \ V / / _` || ' \))/ _` |/ _` || |(_-<
+ *      \_/  \__,_||_||_| \__,_|\__,_||_|/__/
+ *
  */
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -69,7 +83,14 @@ contract CryptoVandals is ERC721 {
         uint256 fromTokenId,
         string calldata toTokenURI
     ) external {
-        mint(msg.sender, fromContract, fromTokenId, address(0), 0, toTokenURI);
+        mint(
+            _msgSender(),
+            fromContract,
+            fromTokenId,
+            address(0),
+            0,
+            toTokenURI
+        );
     }
 
     function vandalize2(
@@ -80,7 +101,7 @@ contract CryptoVandals is ERC721 {
         string calldata toTokenURI
     ) external {
         mint(
-            msg.sender,
+            _msgSender(),
             fromContract1,
             fromTokenId1,
             fromContract2,
