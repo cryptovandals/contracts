@@ -6,6 +6,8 @@ import { HardhatUserConfig } from "hardhat/types";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-etherscan";
+import "hardhat-deploy";
+
 // TODO: reenable solidity-coverage when it works
 // import "solidity-coverage";
 

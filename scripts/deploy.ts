@@ -1,19 +1,26 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const factory = await ethers.getContractFactory("Counter");
+  const kittyFactory = await ethers.getContractFactory("Kitty");
+  const cryptoVandalsFactory = await ethers.getContractFactory("CryptoVandals");
 
-  // If we had constructor arguments, they would be passed into deploy()
-  let contract = await factory.deploy();
+  const kittyContract = await kittyFactory.deploy();
+  await kittyContract.deployed();
 
-  // The address the Contract WILL have once mined
-  console.log(contract.address);
+  const cryptoVandalsContract = await cryptoVandalsFactory.deploy();
+  await cryptoVandalsContract.deployed();
 
-  // The transaction that was sent to the network to deploy the Contract
-  console.log(contract.deployTransaction.hash);
+  // FIXME: dunno how to get the current provider
+  const { chainId } = await kittyContract.provider.getNetwork();
 
-  // The contract is NOT deployed yet; we must wait until it is mined
-  await contract.deployed();
+  const config = {
+    [chainId]: {
+      kitty: kittyContract.address,
+      cryptoVandals: cryptoVandalsContract.address,
+    },
+  };
+
+  console.log(JSON.stringify(config, null, 2));
 }
 
 main()
