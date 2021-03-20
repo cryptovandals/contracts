@@ -43,7 +43,7 @@ Cryptovandals is made up of four pieces:
 1. A **smart contract** deployed on the Ethereum mainnet that can liberate or vandalize an ERC-721 NFT.
 2. A **command line interface** that lets you interact with the smart contract.
 3. A **web application** that lets you interact with the smart contract.
-4. A [**manifesto**](https://github.com/cryptovandals/contracts/blob/main/MANIFESTO.md) that guides our work.
+4. A **[manifesto](https://github.com/cryptovandals/contracts/blob/main/MANIFESTO.md)** that guides our work.
 
 Cryptovandals lets you:
 
