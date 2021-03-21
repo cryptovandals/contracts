@@ -33,6 +33,8 @@ A **liberated NFT** has proprietary links and gateways replaced by open, accessi
 
 A **vandalized NFT** is liberated, but the original linked content is replaced by linked content of your choice.
 
+Check out our [NFT Hack Presentation](https://docs.google.com/presentation/d/1chZMI_m_qRZDYNlmE3ic9zPSA3U_md0vNbWYdlkBBJg/edit#slide=id.p).
+
 ## Why?
 Our mission is set out in the [CryptoVandals Manifesto](https://github.com/cryptovandals/contracts/blob/main/MANIFESTO.md).
 
