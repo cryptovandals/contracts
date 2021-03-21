@@ -39,17 +39,16 @@ Our mission is set out in the [CryptoVandals Manifesto](https://github.com/crypt
 CryptoVandals liberates NFTs from the single points of failure created by the centralized storage and proprietary gateways used by NFT platforms. These single points of failure will almost inevitably lead to the loss of content if and when the platform hosting the content or gateway goes out of business (as raised by [@jonty](https://twitter.com/jonty/status/1372163423446917122)), or worse, if rug pulls replace the content you thought you bought with something else entirely (as demonstrated by [@neitherconfirm](https://twitter.com/neitherconfirm/status/1369285946198396928)).
 
 ## How?
-Cryptovandals is made up of four pieces:
+CryptoVandals is made up of three pieces:
 1. A **smart contract** that can liberate or vandalize an ERC-721 NFT.
-2. A **command line interface** that lets you interact with the smart contract.
-3. A **web application** that lets you interact with the smart contract.
-4. A **[manifesto](https://github.com/cryptovandals/contracts/blob/main/MANIFESTO.md)** that guides our work.
+2. A **web application** that lets you interact with the smart contract.
+3. A **[manifesto](https://github.com/cryptovandals/contracts/blob/main/MANIFESTO.md)** that guides our work.
 
 CryptoVandals lets you:
 
-**Liberate an NFT:** When you tell CryptoVandals to liberate an NFT, it uploads the linked content to IPFS and sends a single transaction from your address to the CryptoVandals contract. That transaction burns the original NFT by sending it to a null address ([`0x1`](https://etherscan.io/address/0x0000000000000000000000000000000000000001), because the default `0x0` can't accept ERC-721 tokens). That same transaction mints a liberated NFT, replacing the original links with open, accessible, content addressed IPFS links. The transaction sent to the CryptoVandals contract links to both the original NFT and the liberated NFT, maintaining the provenance of the original NFT.
+**Liberate an NFT:** When you tell CryptoVandals to liberate an NFT, it uploads the linked content to IPFS and sends a single transaction from your address to the CryptoVandals contract. The transaction burns the original NFT by sending it to a null address ([`0x1`](https://etherscan.io/address/0x0000000000000000000000000000000000000001), because the default `0x0` can't accept ERC-721 tokens). The same transaction mints a liberated NFT, replacing the original links with open, accessible, content addressed IPFS links. The transaction sent to the CryptoVandals contract links to both the original NFT and the liberated NFT, maintaining provenance.
 
-**Vandalize an NFT:** When you tell CryptoVandals to vandalize an NFT, it does the same things as above, but it changes the original content links to reference new content. It could be a modified version of the same content or something entirely new.
+**Vandalize an NFT:** When you tell CryptoVandals to vandalize an NFT, it does the same things as above, but changes the original content links to reference new content. It could be a modified version of the same content or something entirely new.
 
 ## Who?
 CryptoVandals is a [NFTHack](https://nfthack.ethglobal.co/) project by:
