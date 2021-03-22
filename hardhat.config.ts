@@ -7,7 +7,8 @@ import { HardhatUserConfig } from "hardhat/types";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-etherscan";
-import "./tasks";
+
+import("./tasks").catch((e) => console.log("Cannot load tasks", e.toString()));
 
 // TODO: reenable solidity-coverage when it works
 // import "solidity-coverage";
