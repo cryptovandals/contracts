@@ -1,4 +1,4 @@
-# The Cryptovandals Manifesto
+# The CryptoVandals Manifesto
 
 NFTs promise a new online world, one that recaptures the ambitions of the internet of the 1990s—a cyberspace where its own [Declaration of Independence](https://www.eff.org/cyberspace-independence) is a founding document. In that world, the platform empires' walls have crumbled and their rulers can no longer monetize our creativity and attention. NFTs promise abundance for both creators and audiences: For audiences, the abundance of open access rather than the algorithmic grip of adtech surveillance and paywalls. For creators, a direct connection to audiences and a fair share of the value of their work.
 
@@ -14,4 +14,4 @@ NFTs promised **openness**, but the NFT platforms built restrictive APIs and dat
 
 We must liberate our NFTs from single points of failure and control.
 
-**We need [Cryptovandals](https://cryptovandals.com).**
+**We need [CryptoVandals](https://cryptovandals.com).**
