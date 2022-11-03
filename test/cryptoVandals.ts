@@ -8,7 +8,6 @@ import {
   CryptoVandals__factory,
   CryptoVandals,
 } from "../typechain";
-import { BigNumber } from "ethers";
 import { defaultAbiCoder } from "ethers/lib/utils";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 

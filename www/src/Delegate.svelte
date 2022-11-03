@@ -1,4 +1,11 @@
 <script lang="ts">
+  import { Contract, Signer } from "ethers";
+  import { defaultAbiCoder } from "ethers/lib/utils";
+  import type { CryptoVandals } from "../../typechain";
+
+  export let signer: Signer;
+  export let cv: CryptoVandals;
+
   let contractAddress: string;
   let tokenId: string;
   let vandalizerAddress: string;
@@ -8,11 +15,28 @@
       ? `https://testnets.opensea.io/assets/goerli/${contractAddress}/${tokenId}`
       : null;
 
-  async function loadToken() {}
+  async function handleSubmit() {
+    const payload = defaultAbiCoder.encode(
+      ["uint", "address"],
+      [0x02, vandalizerAddress]
+    );
+    const c = new Contract(
+      contractAddress,
+      ["function safeTransferFrom(address,address,uint256,bytes)"],
+      signer
+    );
+    await c["safeTransferFrom(address,address,uint256,bytes)"](
+      await signer.getAddress(),
+      cv.address,
+      tokenId,
+      payload
+    );
+  }
 </script>
 
 <h2>Delegate the vandalization of a token</h2>
-<form on:submit|preventDefault={loadToken}>
+
+<form on:submit|preventDefault={handleSubmit}>
   <div class="grid two">
     <div>
       <input

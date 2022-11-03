@@ -3,7 +3,8 @@
   import Vandalize from "./Vandalize.svelte";
   import VandalizeDelegated from "./VandalizeDelegated.svelte";
   import Header from "./Header.svelte";
-  import { init } from "./stores/wallet";
+  import { signer, init } from "./stores/wallet";
+  import { cv } from "./stores/contract";
 
   const initializing = init();
 </script>
@@ -12,11 +13,14 @@
   <p>Loading please wait…</p>
 {:then}
   <Header />
-  <main class="container">
-    <Vandalize />
-    <Delegate />
-    <VandalizeDelegated />
-  </main>
+  {#if $cv && $signer}
+    <main class="container">
+      <Vandalize cv={$cv} signer={$signer} />
+      <Delegate cv={$cv} signer={$signer} />
+      <VandalizeDelegated cv={$cv} />
+      Address: {$cv.address}
+    </main>
+  {/if}
 {:catch}
   <p>There was an error loading the page.</p>
 {/await}

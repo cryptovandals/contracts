@@ -1,18 +1,42 @@
 <script lang="ts">
+  import { Contract, Signer } from "ethers";
+  import { defaultAbiCoder } from "ethers/lib/utils";
+  import type { CryptoVandals } from "../../typechain";
+
+  export let signer: Signer;
+  export let cv: CryptoVandals;
+
   let contractAddress: string;
   let tokenId: string;
-  let vandalizerAddress: string;
+  let tokenURI: string;
 
   $: link =
     contractAddress && tokenId
       ? `https://testnets.opensea.io/assets/goerli/${contractAddress}/${tokenId}`
       : null;
 
-  async function loadToken() {}
+  async function handleSubmit() {
+    const payload = defaultAbiCoder.encode(
+      ["uint", "string"],
+      [0x10, tokenURI]
+    );
+    const c = new Contract(
+      contractAddress,
+      ["function safeTransferFrom(address,address,uint256,bytes)"],
+      signer
+    );
+    await c["safeTransferFrom(address,address,uint256,bytes)"](
+      await signer.getAddress(),
+      cv.address,
+      tokenId,
+      payload
+    );
+  }
 </script>
 
 <h2>Vandalize a token</h2>
-<form on:submit|preventDefault={loadToken}>
+
+<form on:submit|preventDefault={handleSubmit}>
   <div class="grid two">
     <div>
       <input
@@ -22,19 +46,10 @@
       />
     </div>
     <div>
-      <input
-        placeholder="Token Id"
-        required
-        type="number"
-        bind:value={tokenId}
-      />
+      <input placeholder="Token Id" required bind:value={tokenId} />
     </div>
   </div>
-  <input
-    placeholder="Vandalizer address"
-    required
-    bind:value={vandalizerAddress}
-  />
+  <input placeholder="New Token URI" required bind:value={tokenURI} />
   <div class="grid">
     <div>
       <button type="submit">Sign transaction</button>
