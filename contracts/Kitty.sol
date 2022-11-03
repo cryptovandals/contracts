@@ -1,29 +1,37 @@
-// contracts/Kitty.sol
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
-
-/**
- * This is a generic ERC721 contract that we use in tests to generate NFTs to
- * vandalize.
- * Code from https://docs.openzeppelin.com/contracts/3.x/erc721#constructing_an_erc721_token_contract
- */
+pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Kitty is ERC721 {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+contract Kitty is ERC721, ERC721URIStorage, Ownable {
+    constructor() ERC721("Kitty", "K") {}
 
-    constructor() public ERC721("Kitty", "K") {}
+    function safeMint(
+        address to,
+        uint256 tokenId,
+        string memory uri
+    ) public {
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+    }
 
-    function mint(string memory tokenURI) public returns (uint256) {
-        _tokenIds.increment();
+    // The following functions are overrides required by Solidity.
 
-        uint256 newItemId = _tokenIds.current();
-        _mint(_msgSender(), newItemId);
-        _setTokenURI(newItemId, tokenURI);
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
+        super._burn(tokenId);
+    }
 
-        return newItemId;
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
     }
 }

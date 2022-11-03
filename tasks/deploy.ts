@@ -1,24 +1,20 @@
 import { task } from "hardhat/config";
 import { writeFile } from "fs/promises";
 
-task("deploy", "Deploy Kitty and CryptoVandals", async (_, hre) => {
-  const kittyFactory = await hre.ethers.getContractFactory("Kitty");
-  const cryptoVandalsFactory = await hre.ethers.getContractFactory(
-    "CryptoVandals"
-  );
+task("deploy", "Deploy Storage", async (_, hre) => {
+  console.log("Deploy contract Storage");
+  const storageFactory = await hre.ethers.getContractFactory("Storage");
 
-  const kittyContract = await kittyFactory.deploy();
-  await kittyContract.deployed();
-
-  const cryptoVandalsContract = await cryptoVandalsFactory.deploy();
-  await cryptoVandalsContract.deployed();
+  const storageContract = await storageFactory.deploy();
+  console.log("  Address", storageContract.address);
+  const receipt = await storageContract.deployed();
+  console.log("  Receipt", receipt.deployTransaction.hash);
 
   const { chainId } = await hre.ethers.provider.getNetwork();
 
   const config = {
     [chainId]: {
-      Kitty: kittyContract.address,
-      CryptoVandals: cryptoVandalsContract.address,
+      Storage: storageContract.address,
     },
   };
 
