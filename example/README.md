@@ -1,0 +1,10 @@
+
+Owner: 0xD79e1024837249ecB5C83D28b33a9eCF3236d4eA
+
+Original: ipfs://bafkreih6a36u7pdafb6ev7mpd44agqfaktii62zbxj72scgn54nxorzwgy
+
+Kitty contract: 0x98d6faa66b58545389b4e697b58dbd8546094054
+
+Artist: 0x2a02dEd80B4e6920D0588F3Fa7876408584635ec
+
+Vandalized: ipfs://bafkreihvhz6hs3iev676sy6ohjsadk2jsntayzxfqm5wgjvuoclysi3wtm
