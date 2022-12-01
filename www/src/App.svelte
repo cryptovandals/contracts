@@ -15,12 +15,24 @@
   <Header />
   {#if $cv && $signer}
     <main class="container">
-      <Vandalize cv={$cv} signer={$signer} />
-      <Delegate cv={$cv} signer={$signer} />
-      <VandalizeDelegated cv={$cv} />
+      <section>
+        <Vandalize cv={$cv} signer={$signer} />
+      </section>
+      <section>
+        <Delegate cv={$cv} signer={$signer} />
+      </section>
+      <section>
+        <VandalizeDelegated cv={$cv} />
+      </section>
       Address: {$cv.address}
     </main>
   {/if}
 {:catch}
   <p>There was an error loading the page.</p>
 {/await}
+
+<style>
+  section {
+    margin: 10rem 0;
+  }
+</style>
